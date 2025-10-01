@@ -1,7 +1,7 @@
 # 🔐 Codificador
 
 <p align="center">
-  <img src="App/View/Imagens/logo.png" alt="Logo Codificador" width="200">
+  <img src="logoC.png" alt="Logo Codificador" width="200">
 </p>
 
 Bem-vindo ao **Codificador**, uma aplicação web desenvolvida com Python e Flask que permite codificar e decodificar mensagens utilizando algoritmos simples de substituição. Este projeto tem como objetivo demonstrar como construir aplicações web interativas com Flask e manipulação de strings.
