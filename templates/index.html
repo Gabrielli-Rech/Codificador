@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Códigos Universal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <header>
+                <h1>Conversor de Códigos</h1>
+                <button class="theme-toggle" id="themeToggle" title="Alternar tema">
+                    <span id="themeIcon"></span>
+                </button>
+            </header>
+            <form action="/" method="post" id="converterForm">
+                <div class="form-group">
+                    <label for="texto_entrada">Texto de Entrada:</label>
+                    <textarea name="texto_entrada" id="texto_entrada" rows="5">{{ texto_entrada }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo_conversao">Escolha a Conversão:</label>
+                    <select name="tipo_conversao" id="tipo_conversao">
+                        <option value="txt2bin" {% if tipo_conversao == 'txt2bin' %}selected{% endif %}>Texto para Binário</option>
+                        <option value="bin2txt" {% if tipo_conversao == 'bin2txt' %}selected{% endif %}>Binário para Texto</option>
+                        <option value="txt2morse" {% if tipo_conversao == 'txt2morse' %}selected{% endif %}>Texto para Código Morse</option>
+                        <option value="morse2txt" {% if tipo_conversao == 'morse2txt' %}selected{% endif %}>Código Morse para Texto</option>
+                        <option value="txt2b64" {% if tipo_conversao == 'txt2b64' %}selected{% endif %}>Texto para Base64</option>
+                        <option value="b642txt" {% if tipo_conversao == 'b642txt' %}selected{% endif %}>Base64 para Texto</option>
+                        <option value="cifrar_cesar" {% if tipo_conversao == 'cifrar_cesar' %}selected{% endif %}>Criptografar (Cifra de César)</option>
+                        <option value="decifrar_cesar" {% if tipo_conversao == 'decifrar_cesar' %}selected{% endif %}>Descriptografar (Cifra de César)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="chave_cesar">Chave para Cifra de César:</label>
+                    <div class="chave-container">
+                        <input type="number" name="chave_cesar" id="chave_cesar" value="{{ chave_cesar or 3 }}" min="1" max="25">
+                    </div>
+                </div>
+
+                <button type="submit">Converter</button>
+            </form>
+        </div>
+
+        <div class="card result-container">
+            <header>
+                <h2>Resultado:</h2>
+                <button id="copy-button" class="theme-toggle" title="Copiar Resultado">📋</button>
+            </header>
+            <div id="resultado">{{ resultado | safe }}</div>
+        </div>
+    </div>
+
+    <script>
+        // --- GERENCIAMENTO DO TEMA ---
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        // --- SALVAR PREFERÊNCIAS E COPIAR RESULTADO ---
+        const form = document.getElementById('converter-form');
+        const tipoConversaoSelect = document.getElementById('tipo_conversao');
+        const chaveCesarInput = document.getElementById('chave_cesar');
+        const copyButton = document.getElementById('copy-button');
+
+        function carregarPreferencias() {
+            const savedOption = localStorage.getItem('lastConversion');
+            const savedKey = localStorage.getItem('lastKey');
+            if (savedOption) tipoConversaoSelect.value = savedOption;
+            if (savedKey) chaveCesarInput.value = savedKey;
+        }
+
+        function salvarPreferencias() {
+            localStorage.setItem('lastConversion', tipoConversaoSelect.value);
+            localStorage.setItem('lastKey', chaveCesarInput.value);
+        }
+
+        function copiarResultado() {
+            const resultadoTexto = document.getElementById('resultado').innerText;
+            if (resultadoTexto) {
+                navigator.clipboard.writeText(resultadoTexto)
+                    .then(() => alert('Texto copiado para a área de transferência!'))
+                    .catch(() => alert('Falha ao copiar o texto.'));
+            } else {
+                alert('Nada para copiar!');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarPreferencias);
+        form.addEventListener('submit', salvarPreferencias);
+        copyButton.addEventListener('click', copiarResultado);
+    </script>
+</body>
+</html>

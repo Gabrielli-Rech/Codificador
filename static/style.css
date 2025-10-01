@@ -1,0 +1,140 @@
+/* Importa a fonte e define as variáveis de cor para os temas */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --font-family: 'Roboto', sans-serif;
+    --transition-speed: 0.3s;
+}
+
+/* TEMA CLARO (LIGHT) */
+[data-theme="light"] {
+    --bg-color: #f0f2f5;
+    --card-bg-color: #ffffff;
+    --text-color: #1c1e21;
+    --input-bg-color: #f0f2f5;
+    --border-color: #dddfe2;
+    --primary-btn-bg: #00a581;
+    --primary-btn-hover: #04bd95;
+}
+
+/* TEMA ESCURO (DARK) */
+[data-theme="dark"] {
+    --bg-color: #1a1a2e;
+    --card-bg-color: #16213e;
+    --text-color: #e9ecef;
+    --input-bg-color: #0f3460;
+    --border-color: #0f3460;
+    --primary-btn-bg: #008c91;
+    --primary-btn-hover: #006d64;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.card {
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: background-color var(--transition-speed) ease;
+    margin-bottom: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+    padding: 5px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+textarea, select, input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+
+textarea:focus, select:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-btn-bg);
+}
+
+.chave-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-btn-bg);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--primary-btn-hover);
+}
+
+.result-container h2 {
+    margin-top: 0;
+}
+
+#resultado {
+    font-weight: bold;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    min-height: 50px;
+}
